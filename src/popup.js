@@ -5,29 +5,29 @@
  */
 function main() {
     // google analytics
-    (function (i, s, o, g, r, a, m) {
-        i["GoogleAnalyticsObject"] = r;
-        (i[r] =
-            i[r] ||
-            function () {
-                (i[r].q = i[r].q || []).push(arguments);
-            }),
-        (i[r].l = 1 * new Date());
-        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m);
-    })(
-        window,
-        document,
-        "script",
-        "https://www.google-analytics.com/analytics.js",
-        "ga"
-    );
+    // (function (i, s, o, g, r, a, m) {
+    //     i["GoogleAnalyticsObject"] = r;
+    //     (i[r] =
+    //         i[r] ||
+    //         function () {
+    //             (i[r].q = i[r].q || []).push(arguments);
+    //         }),
+    //     (i[r].l = 1 * new Date());
+    //     (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+    //     a.async = 1;
+    //     a.src = g;
+    //     m.parentNode.insertBefore(a, m);
+    // })(
+    //     window,
+    //     document,
+    //     "script",
+    //     "https://www.google-analytics.com/analytics.js",
+    //     "ga"
+    // );
 
-    ga("create", "UA-119398707-1", "auto");
-    ga("set", "checkProtocolTask", null);
-    ga("send", "pageview");
+    // ga("create", "UA-119398707-1", "auto");
+    // ga("set", "checkProtocolTask", null);
+    // ga("send", "pageview");
 
     // downloadResources on button press
     const button = document.getElementById("downloadResources");
@@ -36,19 +36,22 @@ function main() {
     });
 
     document.getElementById("shareLink").addEventListener("click", () => {
-        var copyFrom = document.createElement("textarea");
-        copyFrom.textContent =
-            "https://chrome.google.com/webstore/detail/geckodm/pgkfjobhhfckamidemkddfnnkknomobe";
-        document.body.appendChild(copyFrom);
-        copyFrom.select();
-        document.execCommand("copy");
-        copyFrom.blur();
-        document.body.removeChild(copyFrom);
+        // var copyFrom = document.createElement("textarea");
+        // copyFrom.textContent =
+        //     "https://chrome.google.com/webstore/detail/geckodm/pgkfjobhhfckamidemkddfnnkknomobe";
+        // document.body.appendChild(copyFrom);
+        // copyFrom.select();
+        // document.execCommand("copy");
+        // copyFrom.blur();
+        // document.body.removeChild(copyFrom);
+        chrome.tabs.create({
+            url: "https://github.com/ZurMaD/pucp_downloader",
+        });
     });
 
     document.getElementById("sourceCode").addEventListener("click", () => {
         chrome.tabs.create({
-            url: "https:github.com/harsilspatel/moodleDownloader",
+            url: "https://github.com/ZurMaD/pucp_downloader",
         });
     });
 
@@ -337,13 +340,13 @@ function xd() {
 
         download_string(
             "/pucp/document/dowdocum/dowdocum;jsessionid=" +
-            0 +
+            randomIntFromInterval(0,1000000) +
             "?accion=Descargar&documento=" +
             number
         );
         console.log(
             "/pucp/document/dowdocum/dowdocum;jsessionid=" +
-            0 +
+            randomIntFromInterval(0,1000000)  +
             "?accion=Descargar&documento=" +
             number
         );
@@ -377,4 +380,16 @@ function open_folders2() {
 
     }
     sleep(1000);
+}
+
+function randomIntFromInterval(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+function downloadResources2() {
+    open_folders2();
+    xd();
+
+
 }
