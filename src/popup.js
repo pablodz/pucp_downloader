@@ -319,34 +319,35 @@ document.addEventListener("DOMContentLoaded", () => {
     var resourcesList = [];
 });
 //#################################################################
-var elements = document.getElementsByClassName("mArchD");
 
-function d(link) {
+
+function download_string(link) {
     sleep(600);
     (window.parent.location = link);
 }
 
 function xd() {
-    open_folders()
+    var iframe = document.getElementById('frame_mid');
+    var innerDoc2 = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+    var elements = innerDoc2.getElementsByClassName("mArchD");
     for (var i = 0; i < elements.length; i++) {
         number = elements[i].pathname.substr(7, 8);
-        var session = document.busqDocumentos.session.value;
-        var documento = document.busqDocumentos.seleccionado.value;
 
-        d(
+        //var session = document.busqDocumentos.session.value;
+
+        download_string(
             "/pucp/document/dowdocum/dowdocum;jsessionid=" +
-            session +
+            0 +
             "?accion=Descargar&documento=" +
             number
         );
         console.log(
             "/pucp/document/dowdocum/dowdocum;jsessionid=" +
-            session +
+            0 +
             "?accion=Descargar&documento=" +
             number
         );
     }
-    return 0;
 }
 
 function sleep(milliseconds) {
@@ -358,10 +359,22 @@ function sleep(milliseconds) {
     }
 }
 
-function open_folders() {
 
-    var elements = document.getElementsByTagName('div')
-    for (var i = 4; i < elements.length-1; i++) {
-        document.getElementsByTagName('div')[i].setAttribute("style", "display: block;")
+function open_folders2() {
+
+    var iframe = document.getElementById('frame_mid');
+    var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+    var elements2 = innerDoc.getElementsByTagName('a');
+    for (var i = 0; i < elements2.length; i++) {
+        try {
+            if(elements2[i].id==""){
+                elements2[i].onclick();
+            }
+            
+        } catch (e) {
+            console.log(e);
+        }
+
     }
+    sleep(1000);
 }
