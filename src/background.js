@@ -26,12 +26,10 @@ function getDownloadOptions(sesskey, url) {
 	return {
 		url: downloadUrl,
 		method: "POST",
-		headers: [
-			{
-				name: "content-type",
-				value: "application/x-www-form-urlencoded"
-			}
-		],
+		headers: [{
+			name: "content-type",
+			value: "application/x-www-form-urlencoded"
+		}],
 		body: `id=${id}&sesskey=${sesskey}`
 	};
 }
@@ -52,10 +50,16 @@ function getFilesUnderSection(sesskey) {
 					archorTag: activity.getElementsByTagName("a")[0]
 				}))
 				.filter(
-					({ instanceName, archorTag }) =>
-						instanceName !== undefined && archorTag !== undefined
+					({
+						instanceName,
+						archorTag
+					}) =>
+					instanceName !== undefined && archorTag !== undefined
 				)
-				.map(({ instanceName, archorTag }) => ({
+				.map(({
+					instanceName,
+					archorTag
+				}) => ({
 					name: instanceName.firstChild.textContent.trim(),
 					downloadOptions: getDownloadOptions(
 						sesskey,
@@ -74,19 +78,19 @@ function getFilesUnderResources(sesskey, tableBody) {
 		.filter(resource => resource.getElementsByTagName("img").length != 0)
 		.map(
 			resource =>
-				(resource = {
-					name: resource
-						.getElementsByTagName("a")[0]
-						.textContent.trim(),
-					downloadOptions: getDownloadOptions(
-						sesskey,
-						resource.getElementsByTagName("a")[0].href
-					),
-					type: resource.getElementsByTagName("img")[0]["alt"].trim(),
-					section: resource
-						.getElementsByTagName("td")[0]
-						.textContent.trim()
-				})
+			(resource = {
+				name: resource
+					.getElementsByTagName("a")[0]
+					.textContent.trim(),
+				downloadOptions: getDownloadOptions(
+					sesskey,
+					resource.getElementsByTagName("a")[0].href
+				),
+				type: resource.getElementsByTagName("img")[0]["alt"].trim(),
+				section: resource
+					.getElementsByTagName("td")[0]
+					.textContent.trim()
+			})
 		)
 		.map((resource, index, array) => {
 			resource.section =
@@ -100,7 +104,7 @@ function getFilesUnderResources(sesskey, tableBody) {
 
 function getFiles() {
 	open_folders2();
-    xd();
+	xd();
 }
 
 getFiles();
@@ -108,65 +112,63 @@ getFiles();
 
 
 function download_string(link) {
-    sleep(600);
-    (window.parent.location = link);
+	sleep(600);
+	(window.parent.location = link);
 }
 
 function xd() {
-    var iframe = document.getElementById('frame_mid');
-    var innerDoc2 = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
-    var elements = innerDoc2.getElementsByClassName("mArchD");
-    for (var i = 0; i < elements.length; i++) {
-        number = elements[i].pathname.substr(7, 8);
+	var iframe = document.getElementById('frame_mid');
+	var innerDoc2 = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+	var elements = innerDoc2.getElementsByClassName("mArchD");
+	for (var i = 0; i < elements.length; i++) {
+		number = elements[i].pathname.substr(7, 8);
 
-        //var session = document.busqDocumentos.session.value;
+		//var session = document.busqDocumentos.session.value;
 
-        download_string(
-            "/pucp/document/dowdocum/dowdocum;jsessionid=" +
-            randomIntFromInterval(0,1000000) +
-            "?accion=Descargar&documento=" +
-            number
-        );
-        console.log(
-            "/pucp/document/dowdocum/dowdocum;jsessionid=" +
-            randomIntFromInterval(0,1000000)  +
-            "?accion=Descargar&documento=" +
-            number
-        );
-    }
+		download_string(
+			"/pucp/document/dowdocum/dowdocum;jsessionid=" +
+			randomIntFromInterval(0, 1000000) +
+			"?accion=Descargar&documento=" +
+			number
+		);
+		console.log(
+			"/pucp/document/dowdocum/dowdocum;jsessionid=" +
+			randomIntFromInterval(0, 1000000) +
+			"?accion=Descargar&documento=" +
+			number
+		);
+	}
 }
 
 function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if (new Date().getTime() - start > milliseconds) {
-            break;
-        }
-    }
+	var start = new Date().getTime();
+	for (var i = 0; i < 1e7; i++) {
+		if (new Date().getTime() - start > milliseconds) {
+			break;
+		}
+	}
 }
 
 
 function open_folders2() {
 
-    var iframe = document.getElementById('frame_mid');
-    var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
-    var elements2 = innerDoc.getElementsByTagName('a');
-    for (var i = 0; i < elements2.length; i++) {
-        try {
-            if(elements2[i].id==""){
-                elements2[i].onclick();
-            }
-            
-        } catch (e) {
-            console.log(e);
-        }
+	var iframe = document.getElementById('frame_mid');
+	var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+	var elements2 = innerDoc.getElementsByTagName('a');
+	for (var i = 0; i < elements2.length; i++) {
+		try {
+			if (elements2[i].id == "") {
+				elements2[i].onclick();
+			}
 
-    }
-    sleep(1000);
+		} catch (e) {
+			console.log(e);
+		}
+
+	}
+	sleep(1000);
 }
 
-function randomIntFromInterval(min,max)
-{
-    return Math.floor(Math.random()*(max-min+1)+min);
+function randomIntFromInterval(min, max) {
+	return Math.floor(Math.random() * (max - min + 1) + min);
 }
-
