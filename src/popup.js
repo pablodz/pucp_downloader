@@ -34,6 +34,35 @@ function main() {
     button.addEventListener("click", () => {
         downloadResources();
     });
+    const button2 = document.getElementById("downloadAll");
+    button2.addEventListener("click", () => {
+        chrome.tabs.executeScript({
+                file: "./src/background.js",
+            },
+            (result) => {
+                try {
+                    const resourceSelector = document.getElementById("resourceSelector");
+                    const resources = result[0];
+                    resourcesList = [...resources];
+                    console.log(result);
+                    resources.forEach((resource, index) => {
+                        const resourceOption = document.createElement("option");
+
+                        // creating option element such that the text will be
+                        // the resource name and the option value its index in the array.
+                        resourceOption.value = index.toString();
+                        resourceOption.title = resource.name;
+                        resourceOption.innerHTML = resource.name;
+                        resourceSelector.appendChild(resourceOption);
+                    });
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        );
+        initStorage();
+
+    });
 
     document.getElementById("shareLink").addEventListener("click", () => {
         // var copyFrom = document.createElement("textarea");
@@ -62,31 +91,31 @@ function main() {
     });
 
     // executing background.js to populate the select form
-    chrome.tabs.executeScript({
-            file: "./src/background.js",
-        },
-        (result) => {
-            try {
-                const resourceSelector = document.getElementById("resourceSelector");
-                const resources = result[0];
-                resourcesList = [...resources];
-                console.log(result);
-                resources.forEach((resource, index) => {
-                    const resourceOption = document.createElement("option");
+    //     chrome.tabs.executeScript({
+    //         file: "./src/background.js",
+    //     },
+    //     (result) => {
+    //         try {
+    //             const resourceSelector = document.getElementById("resourceSelector");
+    //             const resources = result[0];
+    //             resourcesList = [...resources];
+    //             console.log(result);
+    //             resources.forEach((resource, index) => {
+    //                 const resourceOption = document.createElement("option");
 
-                    // creating option element such that the text will be
-                    // the resource name and the option value its index in the array.
-                    resourceOption.value = index.toString();
-                    resourceOption.title = resource.name;
-                    resourceOption.innerHTML = resource.name;
-                    resourceSelector.appendChild(resourceOption);
-                });
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    );
-    initStorage();
+    //                 // creating option element such that the text will be
+    //                 // the resource name and the option value its index in the array.
+    //                 resourceOption.value = index.toString();
+    //                 resourceOption.title = resource.name;
+    //                 resourceOption.innerHTML = resource.name;
+    //                 resourceSelector.appendChild(resourceOption);
+    //             });
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    // );
+    // initStorage();
 }
 
 function initStorage() {
@@ -322,74 +351,3 @@ document.addEventListener("DOMContentLoaded", () => {
     var resourcesList = [];
 });
 //#################################################################
-
-
-function download_string(link) {
-    sleep(600);
-    (window.parent.location = link);
-}
-
-function xd() {
-    var iframe = document.getElementById('frame_mid');
-    var innerDoc2 = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
-    var elements = innerDoc2.getElementsByClassName("mArchD");
-    for (var i = 0; i < elements.length; i++) {
-        number = elements[i].pathname.substr(7, 8);
-
-        //var session = document.busqDocumentos.session.value;
-
-        download_string(
-            "/pucp/document/dowdocum/dowdocum;jsessionid=" +
-            randomIntFromInterval(0,1000000) +
-            "?accion=Descargar&documento=" +
-            number
-        );
-        console.log(
-            "/pucp/document/dowdocum/dowdocum;jsessionid=" +
-            randomIntFromInterval(0,1000000)  +
-            "?accion=Descargar&documento=" +
-            number
-        );
-    }
-}
-
-function sleep(milliseconds) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if (new Date().getTime() - start > milliseconds) {
-            break;
-        }
-    }
-}
-
-
-function open_folders2() {
-
-    var iframe = document.getElementById('frame_mid');
-    var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
-    var elements2 = innerDoc.getElementsByTagName('a');
-    for (var i = 0; i < elements2.length; i++) {
-        try {
-            if(elements2[i].id==""){
-                elements2[i].onclick();
-            }
-            
-        } catch (e) {
-            console.log(e);
-        }
-
-    }
-    sleep(1000);
-}
-
-function randomIntFromInterval(min,max)
-{
-    return Math.floor(Math.random()*(max-min+1)+min);
-}
-
-function downloadResources2() {
-    open_folders2();
-    xd();
-
-
-}

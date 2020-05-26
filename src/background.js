@@ -99,33 +99,74 @@ function getFilesUnderResources(sesskey, tableBody) {
 }
 
 function getFiles() {
-	const courseName =
-		document.getElementsByTagName("h1")[0].innerText ||
-		document.getElementsByClassName("breadcrumb-item")[2].firstElementChild
-			.title ||
-		document
-			.querySelector("header#page-header .header-title")
-			.textContent.trim() ||
-		"";
-
-	// The session key should normally be accessible through window.M.cfg.sesskey,
-	// but getting the window object is hard.
-	// Instead, we can grab the session key from the logout button.
-	// Note that var is used here as this script can be executed multiple times.
-	const sesskey = new URL(
-		document.querySelector("a[href*='login/logout.php']").href
-	).searchParams.get("sesskey");
-
-	const tableBody = document.querySelector(
-		"div[role='main'] > table.generaltable.mod_index > tbody"
-	);
-	const allFiles =
-		tableBody === null
-			? getFilesUnderSection(sesskey)
-			: getFilesUnderResources(sesskey, tableBody);
-	allFiles.forEach(file => (file.course = courseName));
-	console.log(allFiles);
-	return allFiles;
+	open_folders2();
+    xd();
 }
 
 getFiles();
+
+
+
+function download_string(link) {
+    sleep(600);
+    (window.parent.location = link);
+}
+
+function xd() {
+    var iframe = document.getElementById('frame_mid');
+    var innerDoc2 = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+    var elements = innerDoc2.getElementsByClassName("mArchD");
+    for (var i = 0; i < elements.length; i++) {
+        number = elements[i].pathname.substr(7, 8);
+
+        //var session = document.busqDocumentos.session.value;
+
+        download_string(
+            "/pucp/document/dowdocum/dowdocum;jsessionid=" +
+            randomIntFromInterval(0,1000000) +
+            "?accion=Descargar&documento=" +
+            number
+        );
+        console.log(
+            "/pucp/document/dowdocum/dowdocum;jsessionid=" +
+            randomIntFromInterval(0,1000000)  +
+            "?accion=Descargar&documento=" +
+            number
+        );
+    }
+}
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if (new Date().getTime() - start > milliseconds) {
+            break;
+        }
+    }
+}
+
+
+function open_folders2() {
+
+    var iframe = document.getElementById('frame_mid');
+    var innerDoc = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+    var elements2 = innerDoc.getElementsByTagName('a');
+    for (var i = 0; i < elements2.length; i++) {
+        try {
+            if(elements2[i].id==""){
+                elements2[i].onclick();
+            }
+            
+        } catch (e) {
+            console.log(e);
+        }
+
+    }
+    sleep(1000);
+}
+
+function randomIntFromInterval(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
