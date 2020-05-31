@@ -112,7 +112,7 @@ getFiles();
 
 
 function download_string(link) {
-	sleep(600);
+	sleep(825);
 	(window.parent.location = link);
 }
 
