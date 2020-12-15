@@ -1,2 +1,5 @@
-# pucp_downloader
-Chrome extension for download campus pucp files
+# PUCP Downloader
+
+Chrome extension to download campus pucp files
+
+## Usage
